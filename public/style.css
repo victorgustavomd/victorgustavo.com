@@ -11,6 +11,7 @@
   --dim: #A8A69E;
   --accent: #5DCAA5;
   --warm: #D97757;
+  --warm-texto: #E0846A; /* terracota um pouco mais clara para texto sobre o card (contraste 4,8:1) */
   --display: "Space Grotesk", "Segoe UI", Arial, sans-serif;
   --text: "Inter", "Segoe UI", Arial, sans-serif;
   color-scheme: dark;
@@ -70,7 +71,7 @@ a { color: inherit; }
 .card-mini { font-family: var(--display); font-size: 1.25rem; font-weight: 600; margin: 0; }
 .card-texto { color: var(--soft); margin: 0; flex: 1; }
 .card-link { display: inline-flex; align-items: center; gap: 8px; font-weight: 600; color: var(--accent); text-decoration: none; margin-top: 6px; align-self: flex-start; }
-.card.quente .card-link { color: var(--warm); }
+.card.quente .card-link { color: var(--warm-texto); }
 .seta { transition: transform 160ms ease; }
 .card-link:hover .seta { transform: translateX(3px); }
 

@@ -74,8 +74,59 @@ if (versao) {
         checar(obtido === esperado, `textoVersao(${args.join(", ")}) deu "${obtido}", esperado "${esperado}"`);
       }
     }
+    // Cache de 1 hora no navegador: poupa o limite de 60 consultas/h por IP (rede do hospital)
+    const lerCache = ctx.versaoEmCache;
+    const gravarCache = ctx.guardarVersao;
+    checar(typeof lerCache === "function" && typeof gravarCache === "function", "versao.js: falta versaoEmCache(storage, agora) / guardarVersao(storage, texto, agora)");
+    if (typeof lerCache === "function" && typeof gravarCache === "function") {
+      const mem = {};
+      const storage = { getItem: (k) => (k in mem ? mem[k] : null), setItem: (k, v) => { mem[k] = String(v); } };
+      const t0 = Date.parse("2026-11-24T12:00:00Z");
+      checar(lerCache(storage, t0) === null, "versaoEmCache: cache vazio deveria dar null");
+      gravarCache(storage, "Versão 1.7 · 20/11/2026 · instalador .exe", t0);
+      checar(lerCache(storage, t0 + 59 * 60e3) === "Versão 1.7 · 20/11/2026 · instalador .exe", "versaoEmCache: deveria usar o cache com 59 min");
+      checar(lerCache(storage, t0 + 61 * 60e3) === null, "versaoEmCache: cache com 61 min deveria expirar");
+      const quebrado = { getItem: () => { throw new Error("bloqueado"); }, setItem: () => { throw new Error("bloqueado"); } };
+      checar(lerCache(quebrado, t0) === null, "versaoEmCache: storage bloqueado deveria dar null, não erro");
+      try { gravarCache(quebrado, "x", t0); } catch { falhas.push("guardarVersao: storage bloqueado não pode lançar erro"); }
+      mem["tasy-helper-versao"] = "lixo{";
+      checar(lerCache(storage, t0) === null, "versaoEmCache: conteúdo inválido deveria dar null");
+    }
   } catch (e) {
     falhas.push(`versao.js quebrou fora do navegador: ${e.message}`);
+  }
+}
+
+// Plantão Fast abre em nova aba (spec)
+checar(/<a class="card-link" href="https:\/\/plantaofast\.com\.br" target="_blank" rel="noopener">/.test(inicio), "início: link do Plantão Fast deveria abrir em nova aba");
+
+// Página 404
+const p404 = ler("404.html");
+checar(p404 !== null, "404.html não existe");
+if (p404) {
+  checar(p404.includes('<html lang="pt-BR">'), "404.html: falta lang");
+  checar(p404.includes('href="/style.css"'), "404.html: não usa /style.css");
+  checar(p404.includes('href="/"') && p404.includes('href="/tasy-helper/"'), "404.html: faltam links para / e /tasy-helper/");
+  checar(p404.includes('name="robots" content="noindex"'), "404.html: deveria ter noindex");
+}
+const config = readFileSync(join(raiz, "..", "cloudflare.config.ts"), "utf8");
+checar(/notFoundHandling:\s*"404-page"/.test(config), "cloudflare.config.ts: falta notFoundHandling \"404-page\"");
+
+// Contraste do link terracota sobre o card (WCAG AA, texto normal: 4,5:1)
+if (css) {
+  const token = (nome) => (css.match(new RegExp(`--${nome}:\\s*(#[0-9A-Fa-f]{6})`)) || [])[1];
+  const lum = (hex) => {
+    const c = [1, 3, 5].map((i) => parseInt(hex.slice(i, i + 2), 16) / 255).map((v) => (v <= 0.03928 ? v / 12.92 : ((v + 0.055) / 1.055) ** 2.4));
+    return 0.2126 * c[0] + 0.7152 * c[1] + 0.0722 * c[2];
+  };
+  const regra = (css.match(/\.card\.quente \.card-link\s*\{[^}]*color:\s*var\(--([\w-]+)\)/) || [])[1];
+  const cor = regra && token(regra);
+  const fundo = token("card");
+  if (!cor || !fundo) falhas.push("style.css: não achei a cor do link terracota ou do card");
+  else {
+    const [a, b] = [lum(cor), lum(fundo)].sort((x, y) => y - x);
+    const razao = (a + 0.05) / (b + 0.05);
+    checar(razao >= 4.5, `style.css: link terracota ${cor} sobre ${fundo} tem contraste ${razao.toFixed(2)}:1 (mínimo 4,5:1)`);
   }
 }
 

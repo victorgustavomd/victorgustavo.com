@@ -5,5 +5,6 @@ export default {
     name: "victorgustavo-com",
     compatibilityDate: "2026-11-20",
     domains: ["victorgustavo.com", "www.victorgustavo.com"],
+    assets: { notFoundHandling: "404-page" },
   },
 };
