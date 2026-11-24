@@ -1,0 +1,125 @@
+/* victorgustavo.com — visual do deck "Psicofarmacologia do Transtorno Depressivo".
+   Faixas de largura total alternando três tons de grafite; conteúdo numa coluna de 1080px. */
+:root {
+  --bg: #262624;
+  --bg-alt: #1F1E1D;
+  --bg-deep: #141413;
+  --card: #30302E;
+  --line: #3D3D3A;
+  --ink: #FAF9F5;
+  --soft: #C2C0B6;
+  --dim: #A8A69E;
+  --accent: #5DCAA5;
+  --warm: #D97757;
+  --display: "Space Grotesk", "Segoe UI", Arial, sans-serif;
+  --text: "Inter", "Segoe UI", Arial, sans-serif;
+  color-scheme: dark;
+}
+*, *::before, *::after { box-sizing: border-box; }
+html { background: var(--bg-deep); }
+body { margin: 0; background: var(--bg); color: var(--ink); font-family: var(--text); font-size: 1.0625rem; line-height: 1.6; -webkit-font-smoothing: antialiased; }
+img, svg { max-width: 100%; }
+a { color: inherit; }
+:focus-visible { outline: 2px solid var(--accent); outline-offset: 3px; border-radius: 4px; }
+[hidden] { display: none !important; }
+
+.wrap { max-width: 1080px; margin: 0 auto; padding-left: max(16px, env(safe-area-inset-left, 0px)); padding-right: max(16px, env(safe-area-inset-right, 0px)); }
+.wrap > * { min-width: 0; }
+
+/* Cabeçalho */
+.topo { background: var(--bg-alt); border-bottom: 1px solid var(--line); padding-top: env(safe-area-inset-top, 0px); }
+.topo .wrap { display: flex; align-items: center; justify-content: space-between; gap: 16px; padding-block: 18px; }
+.marca { display: inline-flex; align-items: center; gap: 12px; text-decoration: none; font-family: var(--display); font-weight: 600; font-size: 1.05rem; letter-spacing: 0.01em; }
+.marca-vg { display: grid; place-items: center; width: 34px; height: 34px; border-radius: 9px; background: var(--card); color: var(--accent); font-size: 0.9rem; font-weight: 700; letter-spacing: 0.02em; }
+.nav { display: flex; gap: 22px; font-size: 0.95rem; }
+.nav a { color: var(--soft); text-decoration: none; }
+.nav a:hover, .nav a[aria-current="page"] { color: var(--ink); }
+
+/* Tipografia */
+.eyebrow { font-size: 0.8125rem; font-weight: 600; letter-spacing: 0.18em; text-transform: uppercase; color: var(--accent); }
+.titulo { font-family: var(--display); font-weight: 600; font-size: clamp(1.9rem, 4vw, 2.6rem); line-height: 1.12; text-wrap: balance; margin: 0; }
+.hero-nome { font-family: var(--display); font-weight: 700; font-size: clamp(2.8rem, 8vw, 5rem); line-height: 1.02; letter-spacing: -0.015em; margin: 0; text-wrap: balance; }
+.lead { font-size: clamp(1.1rem, 2.1vw, 1.3rem); line-height: 1.6; color: var(--soft); max-width: 62ch; margin: 0; }
+.texto { color: var(--soft); margin: 0; max-width: 65ch; }
+.cab { display: flex; flex-direction: column; gap: 12px; }
+
+/* Faixas */
+.faixa { padding-block: clamp(56px, 9vw, 96px); }
+.faixa.alt { background: var(--bg-alt); }
+.faixa > .wrap { display: flex; flex-direction: column; gap: 40px; }
+.hero > .wrap { gap: 26px; }
+
+/* Traço de ECG */
+.traco { width: min(100%, 560px); height: auto; display: block; color: var(--accent); }
+.traco path { fill: none; stroke: currentColor; stroke-width: 2.2; stroke-linecap: round; stroke-linejoin: round; stroke-dasharray: 1400; animation: varre 1.8s ease-out 0.2s both; }
+@keyframes varre { from { stroke-dashoffset: 1400; } to { stroke-dashoffset: 0; } }
+.local { display: flex; flex-wrap: wrap; gap: 8px 22px; color: var(--dim); font-size: 0.95rem; }
+.local span { display: inline-flex; align-items: center; gap: 8px; }
+.ponto { width: 7px; height: 7px; border-radius: 50%; background: var(--accent); flex: none; }
+
+/* Cards */
+.grade { display: grid; grid-template-columns: repeat(auto-fit, minmax(min(100%, 300px), 1fr)); gap: 24px; }
+.grade.tres { grid-template-columns: repeat(auto-fit, minmax(min(100%, 260px), 1fr)); }
+.card { background: var(--card); border-radius: 16px; padding: 30px; display: flex; flex-direction: column; gap: 12px; border-top: 6px solid var(--accent); animation: sobe 520ms ease-out both; min-width: 0; }
+.card.quente { border-top-color: var(--warm); }
+.grade .card:nth-child(2) { animation-delay: 90ms; }
+.grade .card:nth-child(3) { animation-delay: 180ms; }
+@keyframes sobe { from { opacity: 0; transform: translateY(18px); } }
+.card-tag { font-size: 0.78rem; font-weight: 600; letter-spacing: 0.14em; text-transform: uppercase; color: var(--dim); }
+.card-titulo { font-family: var(--display); font-weight: 600; font-size: 1.6rem; line-height: 1.15; margin: 0; }
+.card-mini { font-family: var(--display); font-size: 1.25rem; font-weight: 600; margin: 0; }
+.card-texto { color: var(--soft); margin: 0; flex: 1; }
+.card-link { display: inline-flex; align-items: center; gap: 8px; font-weight: 600; color: var(--accent); text-decoration: none; margin-top: 6px; align-self: flex-start; }
+.card.quente .card-link { color: var(--warm); }
+.seta { transition: transform 160ms ease; }
+.card-link:hover .seta { transform: translateX(3px); }
+
+/* Contato */
+.contatos { display: flex; flex-wrap: wrap; gap: 16px; }
+.contato { display: flex; flex-direction: column; gap: 4px; padding: 18px 22px; border: 1px solid var(--line); border-radius: 14px; min-width: 0; }
+.contato-rot { font-size: 0.78rem; font-weight: 600; letter-spacing: 0.14em; text-transform: uppercase; color: var(--dim); }
+.contato-val { font-size: 1.05rem; color: var(--ink); overflow-wrap: anywhere; text-decoration: none; }
+.contato-val:hover { text-decoration: underline; text-decoration-color: var(--accent); text-underline-offset: 4px; }
+
+.rodape { background: var(--bg-deep); color: var(--dim); font-size: 0.875rem; padding-bottom: env(safe-area-inset-bottom, 0px); }
+.rodape .wrap { padding-block: 28px; display: flex; flex-wrap: wrap; justify-content: space-between; gap: 8px 24px; }
+
+/* Tasy Helper */
+.voltar { color: var(--soft); text-decoration: none; font-size: 0.95rem; align-self: flex-start; }
+.voltar:hover { color: var(--ink); }
+.baixar-bloco { display: flex; flex-wrap: wrap; align-items: center; gap: 14px 24px; }
+.baixar { display: inline-flex; align-items: center; gap: 14px; background: var(--accent); color: var(--bg-deep); text-decoration: none; font-family: var(--display); font-weight: 600; font-size: 1.2rem; padding: 16px 28px; border-radius: 14px; box-shadow: 0 10px 30px -12px rgba(93, 202, 165, 0.55); transition: transform 160ms ease, box-shadow 160ms ease; }
+.baixar:hover { transform: translateY(-2px); box-shadow: 0 16px 34px -12px rgba(93, 202, 165, 0.7); }
+.baixar svg { flex: none; }
+.baixar-info { display: flex; flex-direction: column; gap: 2px; color: var(--dim); font-size: 0.92rem; }
+.baixar-info a { color: var(--soft); text-underline-offset: 3px; text-decoration-color: var(--line); }
+
+.passos { list-style: none; margin: 0; padding: 0; display: flex; flex-direction: column; }
+.passo { display: grid; grid-template-columns: 56px 1fr; gap: 20px; padding-block: 24px; border-bottom: 1px solid var(--line); }
+.passo:first-child { border-top: 1px solid var(--line); }
+.passo-num { font-family: var(--display); font-weight: 700; font-size: 2rem; line-height: 1; color: var(--accent); font-variant-numeric: tabular-nums; }
+.passo-corpo { display: flex; flex-direction: column; gap: 6px; min-width: 0; }
+.passo-titulo { font-family: var(--display); font-weight: 600; font-size: 1.3rem; margin: 0; }
+.passo.aviso .passo-num { color: var(--warm); }
+.aviso-caixa { margin-top: 8px; border-left: 3px solid var(--warm); background: rgba(217, 119, 87, 0.09); border-radius: 0 10px 10px 0; padding: 14px 18px; color: var(--soft); }
+.aviso-caixa b { color: var(--ink); font-weight: 600; }
+.botoes-win { display: flex; flex-wrap: wrap; gap: 8px; margin-top: 10px; }
+.botao-win { font-size: 0.85rem; padding: 4px 12px; border-radius: 6px; background: var(--bg-deep); border: 1px solid var(--line); color: var(--ink); font-family: "Segoe UI", var(--text); }
+
+@media (max-width: 560px) {
+  .nav { gap: 16px; font-size: 0.9rem; }
+  .passo { grid-template-columns: 40px 1fr; gap: 14px; }
+  .card { padding: 24px; }
+  .baixar { width: 100%; justify-content: center; }
+}
+@media (max-width: 400px) {
+  .topo .wrap { gap: 12px; }
+  .marca { gap: 10px; font-size: 0.95rem; }
+  .nav { gap: 14px; font-size: 0.9rem; }
+  .nav .so-largo { display: none; }
+}
+.marca, .nav a { white-space: nowrap; }
+@media (prefers-reduced-motion: reduce) {
+  .traco path, .card { animation: none; }
+  .baixar, .seta { transition: none; }
+}
