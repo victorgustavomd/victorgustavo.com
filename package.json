@@ -1,0 +1,9 @@
+{
+  "name": "victorgustavo-com",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "test": "node tests/checar.mjs",
+    "deploy": "node tests/checar.mjs && cf deploy ./public"
+  }
+}

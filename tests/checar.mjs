@@ -4,7 +4,7 @@ import { fileURLToPath } from "node:url";
 import { dirname, join } from "node:path";
 import vm from "node:vm";
 
-const raiz = join(dirname(fileURLToPath(import.meta.url)), "..");
+const raiz = join(dirname(fileURLToPath(import.meta.url)), "..", "public");
 const falhas = [];
 const checar = (ok, msg) => { if (!ok) falhas.push(msg); };
 const ler = (p) => (existsSync(join(raiz, p)) ? readFileSync(join(raiz, p), "utf8") : null);
